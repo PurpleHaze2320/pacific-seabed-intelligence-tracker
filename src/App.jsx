@@ -204,6 +204,33 @@ function EventCard({ item, selected, onSelect }) {
 }
 
 function PacificMap({ items, selected, onSelect }) {
+  const pins = useMemo(() => {
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const minDistance = 10.5;
+    const placed = [];
+
+    return items.map((item, index) => {
+      const baseX = Number(item.coordinates?.x ?? 50);
+      const baseY = Number(item.coordinates?.y ?? 50);
+      let x = clamp(baseX, 8, 92);
+      let y = clamp(baseY, 12, 88);
+
+      for (let attempt = 0; attempt < 18; attempt += 1) {
+        const tooClose = placed.some((pin) => Math.hypot(pin.x - x, pin.y - y) < minDistance);
+        if (!tooClose) break;
+
+        const angle = (index * 137.5 + attempt * 47) * (Math.PI / 180);
+        const radius = 7 + attempt * 2.35;
+        x = clamp(baseX + Math.cos(angle) * radius, 8, 92);
+        y = clamp(baseY + Math.sin(angle) * radius, 14, 86);
+      }
+
+      const pin = { item, index, x, y, baseX, baseY };
+      placed.push(pin);
+      return pin;
+    });
+  }, [items]);
+
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950 shadow-2xl shadow-cyan-950/20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,211,238,0.15),transparent_42%),radial-gradient(circle_at_74%_40%,rgba(99,102,241,0.14),transparent_35%)]" />
@@ -214,31 +241,64 @@ function PacificMap({ items, selected, onSelect }) {
           <h2 className="mt-1 text-xl font-semibold text-white">CCZ + Pacific Mineral Watch</h2>
         </div>
         <div className="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-3 py-2 text-xs font-medium text-cyan-200">
-          Interactive demo dataset
+          Collision-safe pins
         </div>
       </div>
-      <div className="relative h-[430px]">
-        <div className="absolute left-[10%] top-[20%] h-40 w-20 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
-        <div className="absolute right-[10%] top-[18%] h-52 w-28 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
-        <div className="absolute bottom-[7%] left-[38%] h-16 w-48 rounded-[100%] border border-cyan-500/20 bg-cyan-400/5" />
-        <div className="absolute left-[42%] top-[52%] rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-xs text-cyan-200">
+
+      <div className="relative h-[460px]">
+        <div className="pointer-events-none absolute left-[10%] top-[20%] h-40 w-20 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
+        <div className="pointer-events-none absolute right-[10%] top-[18%] h-52 w-28 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
+        <div className="pointer-events-none absolute bottom-[7%] left-[38%] h-16 w-48 rounded-[100%] border border-cyan-500/20 bg-cyan-400/5" />
+
+        <div className="pointer-events-none absolute left-[50%] top-[72%] rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-xs text-cyan-200">
           Clarion-Clipperton Zone
         </div>
-        {items.map((item, index) => {
+
+        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-70" preserveAspectRatio="none">
+          {pins.map((pin) => {
+            const shifted = Math.hypot(pin.baseX - pin.x, pin.baseY - pin.y) > 1.5;
+            if (!shifted) return null;
+            return (
+              <line
+                key={`${pin.item.id}-leader`}
+                x1={`${pin.baseX}%`}
+                y1={`${pin.baseY}%`}
+                x2={`${pin.x}%`}
+                y2={`${pin.y}%`}
+                stroke="rgba(34,211,238,0.35)"
+                strokeDasharray="4 5"
+                strokeWidth="1.5"
+              />
+            );
+          })}
+        </svg>
+
+        {pins.map((pin) => {
+          const { item, index } = pin;
           const score = riskComposite(item);
           const active = selected?.id === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onSelect(item)}
-              className="absolute -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${item.coordinates.x}%`, top: `${item.coordinates.y}%` }}
+              className="group absolute flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-cyan-200"
+              style={{
+                left: `${pin.x}%`,
+                top: `${pin.y}%`,
+                zIndex: active ? 50 : 10 + index,
+              }}
               title={item.headline}
+              aria-label={`Open map signal ${index + 1}: ${item.headline}`}
             >
-              <span className={cls("absolute inset-0 -m-3 animate-ping rounded-full", active ? "bg-cyan-300/40" : score >= 85 ? "bg-rose-400/25" : "bg-cyan-400/20")} />
               <span
                 className={cls(
-                  "relative flex h-10 w-10 items-center justify-center rounded-full border font-mono text-xs font-bold shadow-xl transition",
+                  "absolute inset-1 animate-ping rounded-full",
+                  active ? "bg-cyan-300/40" : score >= 85 ? "bg-rose-400/25" : "bg-cyan-400/20"
+                )}
+              />
+              <span
+                className={cls(
+                  "relative flex h-11 w-11 items-center justify-center rounded-full border font-mono text-xs font-bold shadow-xl transition group-hover:scale-110",
                   active
                     ? "scale-110 border-cyan-200 bg-cyan-300 text-slate-950"
                     : score >= 85
@@ -248,6 +308,9 @@ function PacificMap({ items, selected, onSelect }) {
               >
                 {index + 1}
               </span>
+              <span className="pointer-events-none absolute left-1/2 top-full mt-1 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-slate-700 bg-slate-950/95 px-2 py-1 text-[10px] text-slate-200 shadow-xl group-hover:block">
+                {item.type.replace("Data Center ", "DC ")}
+              </span>
             </button>
           );
         })}
@@ -255,6 +318,7 @@ function PacificMap({ items, selected, onSelect }) {
     </div>
   );
 }
+
 
 function LinkedInPanel() {
   const post = `AI is not just a software story anymore.
