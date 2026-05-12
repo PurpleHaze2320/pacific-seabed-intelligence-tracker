@@ -204,30 +204,48 @@ function EventCard({ item, selected, onSelect }) {
 }
 
 function PacificMap({ items, selected, onSelect }) {
+  /*
+    Command-center layout:
+    The original coordinates are still used as "source geography," but the visible pins
+    are placed into large, separated slots. This prevents the CCZ cluster from becoming
+    hard to click when multiple events share the same real-world region.
+  */
+  const displaySlots = [
+    { x: 51, y: 51, anchor: "center" },
+    { x: 70, y: 36, anchor: "right" },
+    { x: 30, y: 67, anchor: "left" },
+    { x: 82, y: 61, anchor: "right" },
+    { x: 43, y: 31, anchor: "center" },
+    { x: 18, y: 46, anchor: "left" },
+    { x: 20, y: 22, anchor: "left" },
+    { x: 62, y: 79, anchor: "center" },
+    { x: 84, y: 24, anchor: "right" },
+    { x: 38, y: 83, anchor: "center" },
+    { x: 12, y: 75, anchor: "left" },
+    { x: 75, y: 82, anchor: "right" },
+  ];
+
   const pins = useMemo(() => {
-    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-    const minDistance = 10.5;
-    const placed = [];
+    const fallbackSlot = (index) => {
+      const angle = (index * 137.5) * (Math.PI / 180);
+      return {
+        x: 50 + Math.cos(angle) * 36,
+        y: 52 + Math.sin(angle) * 30,
+        anchor: Math.cos(angle) > 0 ? "right" : "left",
+      };
+    };
 
     return items.map((item, index) => {
-      const baseX = Number(item.coordinates?.x ?? 50);
-      const baseY = Number(item.coordinates?.y ?? 50);
-      let x = clamp(baseX, 8, 92);
-      let y = clamp(baseY, 12, 88);
-
-      for (let attempt = 0; attempt < 18; attempt += 1) {
-        const tooClose = placed.some((pin) => Math.hypot(pin.x - x, pin.y - y) < minDistance);
-        if (!tooClose) break;
-
-        const angle = (index * 137.5 + attempt * 47) * (Math.PI / 180);
-        const radius = 7 + attempt * 2.35;
-        x = clamp(baseX + Math.cos(angle) * radius, 8, 92);
-        y = clamp(baseY + Math.sin(angle) * radius, 14, 86);
-      }
-
-      const pin = { item, index, x, y, baseX, baseY };
-      placed.push(pin);
-      return pin;
+      const slot = displaySlots[index] || fallbackSlot(index);
+      return {
+        item,
+        index,
+        displayX: slot.x,
+        displayY: slot.y,
+        anchor: slot.anchor,
+        sourceX: Number(item.coordinates?.x ?? slot.x),
+        sourceY: Number(item.coordinates?.y ?? slot.y),
+      };
     });
   }, [items]);
 
@@ -235,40 +253,52 @@ function PacificMap({ items, selected, onSelect }) {
     <div className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-950 shadow-2xl shadow-cyan-950/20">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,211,238,0.15),transparent_42%),radial-gradient(circle_at_74%_40%,rgba(99,102,241,0.14),transparent_35%)]" />
       <div className="absolute inset-0 opacity-25 [background-image:linear-gradient(rgba(148,163,184,.17)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,.17)_1px,transparent_1px)] [background-size:32px_32px]" />
+
       <div className="relative flex items-center justify-between border-b border-slate-800 p-4">
         <div>
           <p className="text-xs uppercase tracking-[0.28em] text-cyan-300">Pacific Intelligence Map</p>
           <h2 className="mt-1 text-xl font-semibold text-white">CCZ + Pacific Mineral Watch</h2>
         </div>
         <div className="rounded-2xl border border-cyan-400/30 bg-cyan-400/10 px-3 py-2 text-xs font-medium text-cyan-200">
-          Collision-safe pins
+          Deconflicted signal map
         </div>
       </div>
 
-      <div className="relative h-[460px]">
-        <div className="pointer-events-none absolute left-[10%] top-[20%] h-40 w-20 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
+      <div className="relative h-[500px]">
+        {/* Abstract land/ocean forms */}
+        <div className="pointer-events-none absolute left-[8%] top-[17%] h-36 w-20 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
         <div className="pointer-events-none absolute right-[10%] top-[18%] h-52 w-28 rounded-full border border-slate-700/70 bg-slate-900/60 blur-[1px]" />
-        <div className="pointer-events-none absolute bottom-[7%] left-[38%] h-16 w-48 rounded-[100%] border border-cyan-500/20 bg-cyan-400/5" />
+        <div className="pointer-events-none absolute bottom-[7%] left-[37%] h-16 w-52 rounded-[100%] border border-cyan-500/20 bg-cyan-400/5" />
 
-        <div className="pointer-events-none absolute left-[50%] top-[72%] rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-xs text-cyan-200">
-          Clarion-Clipperton Zone
+        {/* The real CCZ cluster label is intentionally below the pins now. */}
+        <div className="pointer-events-none absolute left-[40%] top-[87%] rounded-full border border-cyan-400/20 bg-cyan-400/5 px-4 py-2 text-xs text-cyan-200">
+          Clarion-Clipperton Zone source cluster
         </div>
 
-        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-70" preserveAspectRatio="none">
+        {/* Ghost source points and leader lines: shows that pins were deconflicted, not randomly moved. */}
+        <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-80" preserveAspectRatio="none">
           {pins.map((pin) => {
-            const shifted = Math.hypot(pin.baseX - pin.x, pin.baseY - pin.y) > 1.5;
-            if (!shifted) return null;
+            const shifted = Math.hypot(pin.sourceX - pin.displayX, pin.sourceY - pin.displayY) > 4;
             return (
-              <line
-                key={`${pin.item.id}-leader`}
-                x1={`${pin.baseX}%`}
-                y1={`${pin.baseY}%`}
-                x2={`${pin.x}%`}
-                y2={`${pin.y}%`}
-                stroke="rgba(34,211,238,0.35)"
-                strokeDasharray="4 5"
-                strokeWidth="1.5"
-              />
+              <g key={`${pin.item.id}-source`}>
+                <circle
+                  cx={`${pin.sourceX}%`}
+                  cy={`${pin.sourceY}%`}
+                  r="3"
+                  fill="rgba(148,163,184,0.34)"
+                />
+                {shifted && (
+                  <line
+                    x1={`${pin.sourceX}%`}
+                    y1={`${pin.sourceY}%`}
+                    x2={`${pin.displayX}%`}
+                    y2={`${pin.displayY}%`}
+                    stroke="rgba(34,211,238,0.32)"
+                    strokeDasharray="4 6"
+                    strokeWidth="1.5"
+                  />
+                )}
+              </g>
             );
           })}
         </svg>
@@ -277,43 +307,67 @@ function PacificMap({ items, selected, onSelect }) {
           const { item, index } = pin;
           const score = riskComposite(item);
           const active = selected?.id === item.id;
+          const meta = typeMeta[item.type] || typeMeta["Mineral Intelligence"];
+          const labelPlacement =
+            pin.anchor === "right"
+              ? "left-full ml-3 text-left"
+              : pin.anchor === "left"
+              ? "right-full mr-3 text-right"
+              : "left-1/2 top-full mt-2 -translate-x-1/2 text-center";
+
           return (
             <button
               key={item.id}
               onClick={() => onSelect(item)}
-              className="group absolute flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-cyan-200"
+              className="group absolute flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-cyan-200"
               style={{
-                left: `${pin.x}%`,
-                top: `${pin.y}%`,
-                zIndex: active ? 50 : 10 + index,
+                left: `${pin.displayX}%`,
+                top: `${pin.displayY}%`,
+                zIndex: active ? 60 : 20 + index,
               }}
               title={item.headline}
               aria-label={`Open map signal ${index + 1}: ${item.headline}`}
             >
               <span
                 className={cls(
-                  "absolute inset-1 animate-ping rounded-full",
-                  active ? "bg-cyan-300/40" : score >= 85 ? "bg-rose-400/25" : "bg-cyan-400/20"
+                  "absolute h-14 w-14 rounded-full transition",
+                  active
+                    ? "bg-cyan-300/20 ring-4 ring-cyan-300/25"
+                    : score >= 85
+                    ? "bg-rose-400/10 ring-2 ring-rose-300/25 group-hover:ring-4"
+                    : "bg-cyan-400/10 ring-2 ring-cyan-300/20 group-hover:ring-4"
                 )}
               />
               <span
                 className={cls(
-                  "relative flex h-11 w-11 items-center justify-center rounded-full border font-mono text-xs font-bold shadow-xl transition group-hover:scale-110",
+                  "relative flex h-12 w-12 items-center justify-center rounded-full border font-mono text-sm font-black shadow-xl transition group-hover:scale-110",
                   active
-                    ? "scale-110 border-cyan-200 bg-cyan-300 text-slate-950"
+                    ? "scale-110 border-cyan-100 bg-cyan-300 text-slate-950 shadow-cyan-300/30"
                     : score >= 85
-                    ? "border-rose-300/60 bg-rose-500/20 text-rose-100"
-                    : "border-cyan-300/60 bg-cyan-500/20 text-cyan-100"
+                    ? "border-rose-300/80 bg-rose-500/25 text-rose-50 shadow-rose-500/20"
+                    : "border-cyan-300/70 bg-cyan-500/20 text-cyan-50 shadow-cyan-500/20"
                 )}
               >
                 {index + 1}
               </span>
-              <span className="pointer-events-none absolute left-1/2 top-full mt-1 hidden -translate-x-1/2 whitespace-nowrap rounded-lg border border-slate-700 bg-slate-950/95 px-2 py-1 text-[10px] text-slate-200 shadow-xl group-hover:block">
-                {item.type.replace("Data Center ", "DC ")}
+
+              {/* Persistent short label for desktop readability. */}
+              <span
+                className={cls(
+                  "pointer-events-none absolute hidden max-w-32 rounded-xl border border-slate-700 bg-slate-950/95 px-2.5 py-1.5 text-[10px] leading-4 text-slate-200 shadow-xl backdrop-blur md:block",
+                  labelPlacement
+                )}
+              >
+                <span className="block font-semibold text-cyan-100">{meta.label}</span>
+                <span className="block text-slate-400">{severity(score)} • {score}</span>
               </span>
             </button>
           );
         })}
+
+        <div className="pointer-events-none absolute bottom-4 left-4 rounded-2xl border border-slate-700/70 bg-slate-950/75 p-3 text-xs leading-5 text-slate-400 backdrop-blur">
+          <span className="font-semibold text-cyan-200">Map mode:</span> source points are gray dots; numbered signals are spread out for clean clicking.
+        </div>
       </div>
     </div>
   );
