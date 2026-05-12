@@ -1,0 +1,218 @@
+[
+  {
+    "id": "tmc-noaa-ccz-application-2026",
+    "date": "2026-05-01",
+    "region": "Clarion-Clipperton Zone",
+    "type": "Regulatory / Permit",
+    "status": "Under review",
+    "coordinates": {
+      "x": 52,
+      "y": 56
+    },
+    "headline": "TMC USA deep-seabed mining application advances through U.S. review process",
+    "summary": "A live regulatory signal connecting Pacific polymetallic nodules, U.S. permitting, critical minerals, and AI/data-center supply-chain pressure.",
+    "minerals": [
+      "Nickel",
+      "Copper",
+      "Manganese",
+      "Cobalt"
+    ],
+    "dataCenterRelevance": 91,
+    "biodiversityRisk": 89,
+    "miningMomentum": 96,
+    "confidence": 86,
+    "depth": "Abyssal nodule field",
+    "source": "Reuters / NOAA",
+    "sourceUrl": "https://www.reuters.com/legal/litigation/tmc-says-seabed-mining-application-meets-us-norms-sees-regulatory-decision-by-q1-2026-05-01/",
+    "linkedinAngle": "This is where mineral security, industrial policy, ocean science, and infrastructure risk collide."
+  },
+  {
+    "id": "noaa-deep-seabed-mining-framework-2026",
+    "date": "2026-05-07",
+    "region": "U.S. deep seabed mining framework",
+    "type": "Government / Policy",
+    "status": "Active",
+    "coordinates": {
+      "x": 62,
+      "y": 47
+    },
+    "headline": "NOAA deep-seabed mining resources page updated with active DSHMRA application guidance",
+    "summary": "NOAA is a key public source for tracking U.S. deep-seabed hard minerals activity, applications, public notices, and filing requirements.",
+    "minerals": [
+      "Manganese",
+      "Nickel",
+      "Cobalt",
+      "Copper"
+    ],
+    "dataCenterRelevance": 83,
+    "biodiversityRisk": 72,
+    "miningMomentum": 88,
+    "confidence": 90,
+    "depth": "Policy layer",
+    "source": "NOAA Ocean Service",
+    "sourceUrl": "https://oceanservice.noaa.gov/deep-seabed-mineral-resources/deep-seabed-mining/",
+    "linkedinAngle": "Permitting data is infrastructure intelligence. Tracking filings can reveal supply-chain direction before markets price it in."
+  },
+  {
+    "id": "ccz-24-amphipods-2026",
+    "date": "2026-03-25",
+    "region": "Clarion-Clipperton Zone",
+    "type": "New Life Discovery",
+    "status": "Published science",
+    "coordinates": {
+      "x": 47,
+      "y": 59
+    },
+    "headline": "24 new deep-sea amphipod species described from the CCZ",
+    "summary": "New species descriptions show that biodiversity baselines are still forming in the same region targeted for polymetallic nodule extraction.",
+    "minerals": [
+      "Manganese",
+      "Nickel",
+      "Copper",
+      "Cobalt",
+      "Rare Earth Elements"
+    ],
+    "dataCenterRelevance": 77,
+    "biodiversityRisk": 95,
+    "miningMomentum": 63,
+    "confidence": 92,
+    "depth": "Abyssal plain",
+    "source": "ZooKeys / ScienceDaily",
+    "sourceUrl": "https://zookeys.pensoft.net/article/176711/",
+    "linkedinAngle": "The same mineral frontier is still a biological frontier."
+  },
+  {
+    "id": "ccz-biodiversity-baseline-2026",
+    "date": "2026-02-01",
+    "region": "Clarion-Clipperton Zone",
+    "type": "Biodiversity Baseline",
+    "status": "Published science",
+    "coordinates": {
+      "x": 44,
+      "y": 53
+    },
+    "headline": "Hundreds of species documented in recent CCZ biodiversity work",
+    "summary": "A reminder that deep-sea mineral zones are also data-poor ecosystems where species discovery is still ongoing.",
+    "minerals": [
+      "Manganese",
+      "Nickel",
+      "Copper",
+      "Cobalt"
+    ],
+    "dataCenterRelevance": 74,
+    "biodiversityRisk": 96,
+    "miningMomentum": 58,
+    "confidence": 88,
+    "depth": "4,000m-5,500m class deep-sea floor",
+    "source": "ScienceDaily",
+    "sourceUrl": "https://www.sciencedaily.com/releases/2026/02/260201231230.htm",
+    "linkedinAngle": "Before extraction comes visibility. The tracker turns biodiversity baselines into an intelligence layer."
+  },
+  {
+    "id": "deep-sea-impact-review-2026",
+    "date": "2026-05-04",
+    "region": "Global deep sea with Pacific relevance",
+    "type": "Environmental Risk",
+    "status": "Published review",
+    "coordinates": {
+      "x": 35,
+      "y": 70
+    },
+    "headline": "Review warns some visible deep-sea mining impacts may last decades",
+    "summary": "A broad evidence review found that visible impacts on some abyssal plain environments could persist for decades, while uncertainty remains for vents, seamounts, animals, and plume behavior.",
+    "minerals": [
+      "Polymetallic Nodules",
+      "Cobalt Crusts",
+      "Seafloor Massive Sulphides"
+    ],
+    "dataCenterRelevance": 65,
+    "biodiversityRisk": 98,
+    "miningMomentum": 78,
+    "confidence": 93,
+    "depth": "Abyssal plains, vents, seamounts",
+    "source": "Natural History Museum / Current Biology",
+    "sourceUrl": "https://www.nhm.ac.uk/discover/news/2026/may/most-comprehensive-review-of-deep-sea-mining-affect-unique-sea-life.html",
+    "linkedinAngle": "The core risk is not just damage. It is uncertainty at industrial scale."
+  },
+  {
+    "id": "bhp-copper-ai-demand-2026",
+    "date": "2026-05-06",
+    "region": "Global mining / AI infrastructure",
+    "type": "Data Center Demand Signal",
+    "status": "Market signal",
+    "coordinates": {
+      "x": 27,
+      "y": 35
+    },
+    "headline": "BHP CFO says AI demand is increasing investor interest in copper exposure",
+    "summary": "Copper is a direct physical bottleneck for data-center expansion: power distribution, substations, transformers, boards, heat sinks, and grid modernization.",
+    "minerals": [
+      "Copper"
+    ],
+    "dataCenterRelevance": 99,
+    "biodiversityRisk": 25,
+    "miningMomentum": 64,
+    "confidence": 90,
+    "depth": "Infrastructure layer",
+    "source": "Reuters",
+    "sourceUrl": "https://www.reuters.com/world/asia-pacific/bhp-cfo-says-new-investors-buying-copper-exposure-ai-demand-2026-05-06/",
+    "linkedinAngle": "AI demand turns copper from a commodity into an infrastructure-risk signal."
+  },
+  {
+    "id": "usgs-data-center-minerals-layer",
+    "date": "2026-04-30",
+    "region": "United States / global supply chain",
+    "type": "Data Center Mineral Dependency",
+    "status": "Reference layer",
+    "coordinates": {
+      "x": 22,
+      "y": 42
+    },
+    "headline": "USGS links data centers to large energy and mineral-resource requirements",
+    "summary": "Data centers require energy, cooling, electrical infrastructure, server hardware, and minerals such as copper and aluminum across the physical stack.",
+    "minerals": [
+      "Copper",
+      "Aluminum",
+      "Rare Earth Elements",
+      "Silicon",
+      "Gallium"
+    ],
+    "dataCenterRelevance": 99,
+    "biodiversityRisk": 20,
+    "miningMomentum": 55,
+    "confidence": 93,
+    "depth": "Infrastructure layer",
+    "source": "USGS",
+    "sourceUrl": "https://www.usgs.gov/media/images/key-minerals-data-centers-infographic",
+    "linkedinAngle": "The cloud has a mineral footprint."
+  },
+  {
+    "id": "isa-polymetallic-nodules-profile",
+    "date": "2026-05-12",
+    "region": "Clarion-Clipperton Fracture Zone",
+    "type": "Mineral Intelligence",
+    "status": "Reference layer",
+    "coordinates": {
+      "x": 55,
+      "y": 55
+    },
+    "headline": "Polymetallic nodules contain manganese, iron, nickel, copper, cobalt, and rare earth elements",
+    "summary": "The CCZ is not a single-commodity story. It is a multi-metal deposit system that overlaps with batteries, electronics, defense, grid modernization, and power infrastructure.",
+    "minerals": [
+      "Manganese",
+      "Iron",
+      "Nickel",
+      "Copper",
+      "Cobalt",
+      "Rare Earth Elements"
+    ],
+    "dataCenterRelevance": 92,
+    "biodiversityRisk": 82,
+    "miningMomentum": 86,
+    "confidence": 94,
+    "depth": "Nodule fields on abyssal plain",
+    "source": "International Seabed Authority",
+    "sourceUrl": "https://isa.org.jm/exploration-contracts/polymetallic-nodules/",
+    "linkedinAngle": "Serious critical-minerals intelligence maps deposit types, not just metals."
+  }
+]
