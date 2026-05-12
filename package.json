@@ -1,0 +1,26 @@
+{
+  "name": "pacific-seabed-intelligence-tracker",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Interactive OSINT-style tracker for Pacific deep-sea life discoveries, critical minerals, mining permits, and AI/data-center supply-chain risk.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest",
+    "recharts": "latest"
+  },
+  "devDependencies": {
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest"
+  }
+}
