@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Copper",
+    "symbol": "Cu",
+    "score": 99,
+    "uses": "Power distribution, transformers, substations, server boards, heat sinks, cooling equipment, and grid upgrades.",
+    "seabedSources": [
+      "Polymetallic nodules",
+      "Seafloor massive sulphides"
+    ],
+    "note": "Strongest direct data-center tie."
+  },
+  {
+    "name": "Nickel",
+    "symbol": "Ni",
+    "score": 82,
+    "uses": "Batteries, stainless alloys, industrial components, and backup-energy systems.",
+    "seabedSources": [
+      "Polymetallic nodules"
+    ],
+    "note": "Relevant through batteries and resilient energy systems."
+  },
+  {
+    "name": "Cobalt",
+    "symbol": "Co",
+    "score": 74,
+    "uses": "Batteries, high-performance alloys, strategic technology supply chains.",
+    "seabedSources": [
+      "Polymetallic nodules",
+      "Cobalt-rich crusts"
+    ],
+    "note": "More indirect for data centers, but high strategic relevance."
+  },
+  {
+    "name": "Manganese",
+    "symbol": "Mn",
+    "score": 61,
+    "uses": "Steelmaking, industrial alloys, battery chemistry, and infrastructure scaling.",
+    "seabedSources": [
+      "Polymetallic nodules"
+    ],
+    "note": "Important for industrial scale, less directly tied to server hardware."
+  },
+  {
+    "name": "Rare Earth Elements",
+    "symbol": "REE",
+    "score": 86,
+    "uses": "Magnets, power electronics, advanced systems, defense, and precision components.",
+    "seabedSources": [
+      "Polymetallic nodules",
+      "Cobalt-rich crusts"
+    ],
+    "note": "Strategic technology overlap."
+  }
+]
